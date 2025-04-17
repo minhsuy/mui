@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { memo } from "react";
 interface WelcomeMessageProps {
   position: string;
   country?: string;
@@ -14,4 +15,4 @@ const WelcomeMessage = ({
   );
 };
 
-export default WelcomeMessage;
+export default memo(WelcomeMessage);
