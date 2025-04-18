@@ -10,9 +10,12 @@ import {
 } from "@mui/material";
 import WelcomeMessage from "../Common/WelcomeMessage";
 import { SetStateAction, useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../Contexts/ThemeContext";
+import { ThemeContext } from "../../Contexts/ThemeContext";
 import ToggleThemeButton from "../Common/ToggleThemeButton";
+import Login from "../Auth/Login";
+import { AuthContext } from "../../Contexts/AuthContext";
 const Navbar = () => {
+  const { username, isAuthenticated, onToggleAuth } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
   const [position, setPosition] = useState<string>("Fullstack developer");
   const [time, setTime] = useState<Date>(() => new Date(Date.now()));
@@ -27,6 +30,11 @@ const Navbar = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+  const [loginOpen, setLoginOpen] = useState<boolean>(false);
+  const handleAuthToggle = (isAuthenticated: boolean) => {
+    if (!isAuthenticated) setLoginOpen(true);
+    else onToggleAuth("");
+  };
   return (
     <Box>
       <AppBar position="static" color={theme}>
@@ -34,7 +42,10 @@ const Navbar = () => {
           <Box display="flex" justifyContent="space-between" width={1} py={2}>
             <Typography variant="h6">My movies app</Typography>
             <Box textAlign={"center"}>
-              <WelcomeMessage position={position}></WelcomeMessage>
+              <WelcomeMessage
+                username={username}
+                position={position}
+              ></WelcomeMessage>
               <Box mt={1}>
                 <FormControl variant="outlined">
                   <Select
@@ -63,11 +74,16 @@ const Navbar = () => {
                 </Typography>
               </Box>
               <Box>
-                <Button variant="contained" color="error">
-                  Login
+                <Button
+                  variant="contained"
+                  color={isAuthenticated ? "error" : "success"}
+                  onClick={() => handleAuthToggle(isAuthenticated)}
+                >
+                  {isAuthenticated ? "Logout" : "Login"}
                 </Button>
               </Box>
             </Box>
+            {loginOpen && <Login setLoginOpen={setLoginOpen}></Login>}
           </Box>
         </Toolbar>
       </AppBar>

@@ -3,14 +3,16 @@ import { memo } from "react";
 interface WelcomeMessageProps {
   position: string;
   country?: string;
+  username?: string;
 }
 const WelcomeMessage = ({
   position,
   country = "Viet Nam",
+  username,
 }: WelcomeMessageProps) => {
   return (
     <Box mb={1}>
-      Welcome {position} from {country}
+      Welcome {username} - {position} from {country}
     </Box>
   );
 };

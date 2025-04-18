@@ -1,7 +1,7 @@
 import { Box, Button, Chip, TextField } from "@mui/material";
 import { Fragment, useContext, useState } from "react";
-import { MovieContext } from "./Contexts/MovieContext";
-import { ThemeContext } from "./Contexts/ThemeContext";
+import { ThemeContext } from "../Contexts/ThemeContext";
+import { MovieContext } from "../Contexts/MovieContext";
 
 const Movies = () => {
   const { theme } = useContext(ThemeContext);
@@ -28,7 +28,7 @@ const Movies = () => {
           onChange={handleGetTitle}
           value={title}
         />
-        <Button variant="contained" color="primary" onClick={handleAddMovie}>
+        <Button variant="contained" color={theme} onClick={handleAddMovie}>
           Add
         </Button>
       </Box>
@@ -47,6 +47,10 @@ const Movies = () => {
             label={movie.title}
             clickable
             onDelete={() => handleDeleteMovie(movie.id)}
+            sx={{
+              width: "fit-content",
+              alignSelf: "center",
+            }}
           />
         ))}
       </Box>
